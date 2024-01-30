@@ -101,7 +101,6 @@ export default class SortingVisualizer extends React.Component{
           }  
         }
         this.setSortState();
-        console.log(this.state.sortingInProgress)
       }
 
 
@@ -144,33 +143,25 @@ export default class SortingVisualizer extends React.Component{
             <input type='number' id='animationSpeed' placeholder='Speed of animation' ></input>
             <input type='submit' value='submit' onClick={()=>{this.setArrayValue()} } disabled={this.state.sortingInProgress}></input>
 
-            {/* <button onClick={()=> this.display(array)}>show array</button> */}
 
-        </div>
-        <div className='bar-container'>
-            {
-                array.map((value,idx)=>(
-                    <div className='array-bar' key={idx} style={{height:`${value/4}px`,padding:`${padding_value}px`}}>
-                         {value}
-                    </div>
-                ))
-                
-            }
-      </div>
+          </div>      
 
-            {/* {display_array && (
-              <div>
-             {
-                array.map((value, idx) => (
-                <div  key={idx}>
-                    {value}
-                </div>
-            ))}
-        </div>
-      )} */}
+
+          <div className='bar-container'>
+          {
+              array.map((value, idx) => (
+              <div key={idx} className='array-bar-container'>
+                    <div className='array-bar' style={{ height: `${value / 4}px`, padding: `${padding_value}px` }}></div>
+              <div className='bar-value'>{value}</div>
+             </div>
+         ))}
+          </div>
+          
+
+
        
          
-          </div>
+        </div>
         );
     }
     
