@@ -1,6 +1,6 @@
 .array-container{
     position: absolute;
-    left: 50px;
+
 
 }
 
@@ -9,4 +9,18 @@
     background-color: aqua;
     display: inline-block;
     margin:  1px;
+    text-align: left;
+
 }
+.bar-container{
+ display: flex;
+ align-items: flex-end;
+ justify-content: center;
+ margin-top:10em ;
+ margin-left: 20px;
+
+}
+.butttons{
+    background-color: blue;
+
+} 
