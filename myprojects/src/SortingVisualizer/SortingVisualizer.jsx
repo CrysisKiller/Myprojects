@@ -1,18 +1,18 @@
 import React from 'react';
-import './SortingVisualizer.css'
+import Header1 from './Header1';
+import './SortingVisualizer.css';
 import {getMergeSortAnimations} from './SortingAlgorithms.js';
-
 
 
 let ANIMATION_SPEED_MS = 0;
 
-// Change this value for the number of bars (value) in the array.
-let NUMBER_OF_ARRAY_BARS = 20;
 
-// This is the main color of the array bars.
+let ArraySize = 20;
+
+
 const PRIMARY_COLOR = 'turquoise';
 
-// This is the color of array bars that are being compared throughout the animations.
+
 const SECONDARY_COLOR = 'red';
 
 
@@ -29,25 +29,15 @@ export default class SortingVisualizer extends React.Component{
         this.resetArray();  
     }
 
-    resetArray(){
+     resetArray(){
         const array=[];
         
-        for(let i=0;i<NUMBER_OF_ARRAY_BARS ;i++){
+        for(let i=0;i<ArraySize ;i++){
             array.push(randomIntFromInterval(5,1000));
         }
        this.setState({array});
        this.resetColor();
-
     }
-    setArrayValue(){
-      const newSize = document.getElementById('arraysize').value;
-      const newSpeed=document.getElementById('animationSpeed').value;
-      NUMBER_OF_ARRAY_BARS = parseInt(newSize, 10);
-      ANIMATION_SPEED_MS =parseInt(newSpeed,10);
-      this.resetArray();
-  
-    }
-
     setSortState(){ 
       if(!this.state.sortingInProgress){
         this.setState({sortingInProgress:true});
@@ -63,18 +53,34 @@ export default class SortingVisualizer extends React.Component{
         arrayBars[i].style.backgroundColor = 'aqua';
       }
     }
+    onGenerateNewArray = () => {
+      this.resetArray();
+    };
+  
+    onMergeSort = () => {
+      this.mergeSort();
+    };
+  
+    onSubmit = () => {
+      this.setArrayValue();
+    };
 
-    mergeSort() {
+    setAnimationSpeed=(newSpeed)=>{
+      ANIMATION_SPEED_MS =parseInt(newSpeed,10);
+    }
 
+    setArraySize=(newSize)=>{
+      ArraySize = parseInt(newSize, 10);
+      this.resetArray();
+    }
+
+      mergeSort() {
         this.setSortState();
-      
-        const animations = getMergeSortAnimations(this.state.array);
-
-        if (!ANIMATION_SPEED_MS || isNaN(ANIMATION_SPEED_MS) || ANIMATION_SPEED_MS <= 0) {
+            if (!ANIMATION_SPEED_MS || isNaN(ANIMATION_SPEED_MS) || ANIMATION_SPEED_MS <= 0) {
           // Default animation speed if not provided or not valid
           ANIMATION_SPEED_MS = 100;
         }
-
+        const animations = getMergeSortAnimations(this.state.array);
         for (let i = 0; i < animations.length; i++) {
           const arrayBars = document.getElementsByClassName('array-bar');
           const isColorChange = i % 3 !== 2;
@@ -98,11 +104,10 @@ export default class SortingVisualizer extends React.Component{
                 }, ANIMATION_SPEED_MS);
               }
             }, i * ANIMATION_SPEED_MS);
-          }  
+          }
         }
         this.setSortState();
       }
-
 
    
 
@@ -127,40 +132,38 @@ export default class SortingVisualizer extends React.Component{
 
 
     render(){
-        const {array,display_array} = this.state;
-        const padding_value = NUMBER_OF_ARRAY_BARS<60? 12:1;
-
+        const {array} = this.state;
+        const padding_value = ArraySize<=40? 12:1;
+        const margin_value = ArraySize<=40? 5:1;
+      
         return(
-         <div className='array-container'>
           
-          <div className='buttons'>
+         <div className='array-container'>
+        {/* <button onClick={()=>this.resetArray()} className='buttons' disabled={this.state.sortingInProgress}>Generate New Array</button>
 
-            <button onClick={()=>this.resetArray()} className='buttons' disabled={this.state.sortingInProgress}>Generate New Array</button>
-
-            {/* <button onClick={()=>this.bubblesort(array)}className='buttons'>Bubble Sort</button> */}
+  
             <button onClick={()=>this.mergeSort(array)} className='buttons' disabled={this.state.sortingInProgress}>Merge Sort</button>
             <input type='number' id='arraysize' placeholder='number of elements' required></input>
             <input type='number' id='animationSpeed' placeholder='Speed of animation' ></input>
-            <input type='submit' value='submit' onClick={()=>{this.setArrayValue()} } disabled={this.state.sortingInProgress}></input>
-
-
-          </div>      
-
+            <input type='submit' value='submit' onClick={()=>{this.setArrayValue()} } disabled={this.state.sortingInProgress}></input> */}
+  
+          <Header1
+            onGenerateNewArray={this.onGenerateNewArray}
+            onMergeSort={this.onMergeSort}
+            onSubmit={this.onSubmit}
+            onsetSize={this.setArraySize}
+            onsetSpeed={this.setAnimationSpeed}
+          />
 
           <div className='bar-container'>
           {
               array.map((value, idx) => (
-              <div key={idx} className='array-bar-container'>
+              <div key={idx} className='array-bar-container' style={{marginRight : `${margin_value}px`}}>
                     <div className='array-bar' style={{ height: `${value / 4}px`, padding: `${padding_value}px` }}></div>
-              <div className='bar-value'>{value}</div>
+                    {ArraySize <= 40 && <div className='bar-value'>{value}</div>}
              </div>
          ))}
-          </div>
-          
-
-
-       
-         
+          </div>  
         </div>
         );
     }
