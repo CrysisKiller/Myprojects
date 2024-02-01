@@ -16,7 +16,7 @@ const PRIMARY_COLOR = 'turquoise';
 const SECONDARY_COLOR = 'red';
 
 
-export default class SortingVisualizer extends React.Component{
+export default class SortingVisualizer extends React.Component{     
     constructor(props){
          super(props);
         this.state ={
@@ -139,14 +139,6 @@ export default class SortingVisualizer extends React.Component{
         return(
           
          <div className='array-container'>
-        {/* <button onClick={()=>this.resetArray()} className='buttons' disabled={this.state.sortingInProgress}>Generate New Array</button>
-
-  
-            <button onClick={()=>this.mergeSort(array)} className='buttons' disabled={this.state.sortingInProgress}>Merge Sort</button>
-            <input type='number' id='arraysize' placeholder='number of elements' required></input>
-            <input type='number' id='animationSpeed' placeholder='Speed of animation' ></input>
-            <input type='submit' value='submit' onClick={()=>{this.setArrayValue()} } disabled={this.state.sortingInProgress}></input> */}
-  
           <Header1
             onGenerateNewArray={this.onGenerateNewArray}
             onMergeSort={this.onMergeSort}
