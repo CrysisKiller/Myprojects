@@ -4,11 +4,9 @@
 
 }
 .array-bar{
-    width: 2px;
-    background-color: aqua;
-    display: inline-block;
-    margin:  1px;
-    text-align: left;
+  background-color: aqua;
+  display: flex;
+  align-items: flex-end; /* Align values at the bottom of the bar */
 
 }
 .bar-container{
@@ -27,7 +25,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 5px;
   }
   
   .bar-value {

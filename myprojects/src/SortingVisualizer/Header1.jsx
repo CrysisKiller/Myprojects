@@ -13,7 +13,8 @@ export default class Header1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      disabledState:false
+      disabledState:false,
+      sortValue:"",
     };
   }
 
@@ -26,6 +27,23 @@ export default class Header1 extends React.Component {
     this.props.onsetSpeed(event.target.value);
   }
 
+  setSortvalue = (sortValue) => {
+    this.setState({ sortValue });
+  };
+  
+  callRequestedsort=()=>{
+    let disabledState=true;
+    this.setState({disabledState});
+    switch(this.state.sortValue){
+      case "mergesort" : this.props.onMergeSort();
+                         break;
+      default : console.log("invalid value");
+                break;                   
+    }
+    disabledState=false;
+    this.setState({disabledState});
+
+  }
 
 render () {
     return(
@@ -39,8 +57,13 @@ render () {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link  id="new-array" onClick={this.props.onGenerateNewArray}>Generate New Array</Nav.Link>
-            <Nav.Link  id="mergesort"  onClick={this.props.onMergeSort} >Mergesort</Nav.Link>
+            <Nav.Link    onClick={()=>{this.props.onGenerateNewArray()}} disabled={this.state.disabledState}>Generate New Array</Nav.Link>
+            <Nav.Link    onClick={()=>{this.setSortvalue("mergesort")}} disabled={this.state.disabledState}>Mergesort</Nav.Link>
+            <Nav.Link    onClick={()=>{this.setSortvalue("quicksort")}} disabled={this.state.disabledState}>Quicksort</Nav.Link>
+            <Nav.Link    onClick={()=>{this.setSortvalue("selection sort")}} disabled={this.state.disabledState}>Selection sort</Nav.Link>
+            <Nav.Link    onClick={()=>{this.setSortvalue("insertion sort")}} disabled={this.state.disabledState}>Insertion sort</Nav.Link>
+            <Nav.Link    onClick={()=>{this.setSortvalue("bubblesort")}} disabled={this.state.disabledState}>Bubblesort</Nav.Link>
+
             <NavDropdown title="Link" id="navbarScrollingDropdown" >
               <NavDropdown.Item href="/sorting">Sorting</NavDropdown.Item>
               <NavDropdown.Item href="/graphs" >
@@ -54,16 +77,16 @@ render () {
             <Col>
             <Form.Group  controlId="formGroupEmail" >
               {/* <Form.Label style={{ color: 'white', }}>Number of Elements</Form.Label> */}
-              <Form.Control type="number" placeholder="Number of Elements" id="array-size" style={{width :"200px"}} onChange={this.handleSizeChange}/>
+              <Form.Control type="number" placeholder="Number of Elements" style={{width :"200px"}} onChange={this.handleSizeChange} disabled={this.state.disabledState}/>
             </Form.Group>
             </Col>
             <Col>
             <Form.Group  controlId="formGroupPassword">
-              <Form.Control type="number" placeholder="Animation Speed" id="Ani-speed"  style={{width :"200px"}} onChange={this.handleSpeedChange}/>
+              <Form.Control type="number" placeholder="Animation Speed" style={{width :"200px"}} onChange={this.handleSpeedChange} disabled={this.state.disabledState}/>
             </Form.Group>
             </Col>
             <Col>
-             <Button variant="outline-success"  id="submit-btn">Sort</Button>
+             <Button variant="outline-success" onClick={()=>{this.callRequestedsort()}} disabled={this.state.disabledState}>Sort</Button>
             </Col>
             </Row> 
     
