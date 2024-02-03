@@ -131,3 +131,40 @@ export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
 
 
 
+export function insertionSort (array) {
+  const animations = [];
+
+  for (let i = 1; i < array.length; i++) {
+    let key = array[i];
+    let j = i - 1;
+
+    // Animation: set arrayBars[i] to red at the beginning of the outer loop
+    //animations.push({ type: 'color', index: i, color: 'red' });
+
+    while (j >= 0 && array[j] > key) {
+      // Animation: set arrayBars[j] to red during comparison
+      animations.push({ type: 'color', index: j, color: 'orange' });
+      // Animation: reset colors to blue before comparison
+      animations.push({ type: 'color', index: j + 1, color: 'red' });
+      animations.push({ type: 'color', index: j + 1, color: 'orange' });
+
+
+      // Swap values
+      animations.push({ type: 'swap', indices: [j, j + 1] });
+      array[j + 1] = array[j];
+      j--;
+
+      if (array[j]<key) {
+        // Animation: set arrayBars[j] to blue after swapping
+        animations.push({ type: 'color', index: j, color: 'orange' });
+      }
+    }
+    animations.push({ type: 'color', index: i, color: 'orange' });
+
+    array[j + 1] = key;
+
+    // Animation: set arrayBars[i] to orange after sorting
+    animations.push({ type: 'color', index: i, color: 'orange' });
+  }
+  return animations;
+};

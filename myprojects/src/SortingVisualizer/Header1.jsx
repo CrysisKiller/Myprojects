@@ -80,10 +80,10 @@ export default class Header1 extends React.Component {
           this.props.oninsertionSort(()=>{
             this.setState({ disabledState: false })
           })
-        case "quicksort"  :
-          this.props.onquicksort(()=>{
-            this.setState({disabledState:false})
-            })
+        // case "quicksort"  :
+        //   this.props.onquickSort(()=>{
+        //     this.setState({disabledState:false})
+        //     })
         
         default:
           console.log("invalid value");
