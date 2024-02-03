@@ -31,19 +31,35 @@ export default class Header1 extends React.Component {
     this.setState({ sortValue });
   };
   
-  callRequestedsort=()=>{
-    let disabledState=true;
-    this.setState({disabledState});
-    switch(this.state.sortValue){
-      case "mergesort" : this.props.onMergeSort();
-                         break;
-      default : console.log("invalid value");
-                break;                   
-    }
-    disabledState=false;
-    this.setState({disabledState});
+  //  callRequestedsort=()=>{
+  //   this.setState({disabledState:true},()=>{    
+  //     switch(this.state.sortValue){
+  //     case "mergesort" : this.props.onMergeSort();
+  //                        break;
+  //     default : console.log("invalid value");
+  //               break;                             
+  //   }
+  // });
+  // }
 
-  }
+  callRequestedsort = () => {
+    this.setState({ disabledState: true }, () => {    
+      switch (this.state.sortValue) {
+        case "mergesort":
+          this.props.onMergeSort(() => {
+            // Enable elements after sorting is complete
+            this.setState({ disabledState: false });
+          });
+          break;
+        default:
+          console.log("invalid value");
+          break;
+      }
+    });
+  };
+  
+
+  
 
 render () {
     return(
@@ -97,4 +113,3 @@ render () {
     );
    }
 }
-

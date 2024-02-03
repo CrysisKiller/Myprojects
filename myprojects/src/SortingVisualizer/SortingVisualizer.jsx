@@ -6,9 +6,7 @@ import {getMergeSortAnimations} from './SortingAlgorithms.js';
 
 let ANIMATION_SPEED_MS = 0;
 
-
 let ArraySize = 20;
-
 
 const PRIMARY_COLOR = 'orange';
 
@@ -21,7 +19,6 @@ export default class SortingVisualizer extends React.Component{
          super(props);
          this.state ={
             array : [],
-            sortingInProgress: false,
         };
     }
 
@@ -49,8 +46,8 @@ export default class SortingVisualizer extends React.Component{
       this.resetArray();
     };
   
-    onMergeSort = () => {
-      this.mergeSort();
+    onMergeSort = (callback) => {
+      this.mergeSort(callback);
     };
   
     onSubmit = () => {
@@ -66,7 +63,7 @@ export default class SortingVisualizer extends React.Component{
       this.resetArray();
     }
 
-       mergeSort() {    //original one working one 
+       mergeSort(callback) {    //original one working one 
         if (!ANIMATION_SPEED_MS || isNaN(ANIMATION_SPEED_MS) || ANIMATION_SPEED_MS <= 0) {
           ANIMATION_SPEED_MS = 100;
         }
@@ -89,8 +86,8 @@ export default class SortingVisualizer extends React.Component{
             setTimeout(() => {
               const [barOneIdx, newHeight, barTwoIdx] = animations[i];
               // Check if arrayBars[barOneIdx] and arrayBars[barTwoIdx] are defined before accessing style
-              if (arrayBars[barOneIdx]) arrayBars[barOneIdx].style.height = `${newHeight / 3}px`;
-              if (arrayBars[barTwoIdx]) arrayBars[barTwoIdx].style.height = `${newHeight / 3}px`;
+              if (arrayBars[barOneIdx]) arrayBars[barOneIdx].style.height = `${Math.floor(newHeight / 3)}px`;
+              if (arrayBars[barTwoIdx]) arrayBars[barTwoIdx].style.height = `${Math.floor(newHeight / 3)}px`;
       
               // Update value (only if ArraySize is less than or equal to 40)
               if (ArraySize <= 40) {
@@ -100,44 +97,11 @@ export default class SortingVisualizer extends React.Component{
             }, i * ANIMATION_SPEED_MS);
           }
         }
+        setTimeout(() => {
+          callback();
+        }, animations.length * ANIMATION_SPEED_MS);
       }
 
-
-      // mergeSort() {
-      //   if (!ANIMATION_SPEED_MS || isNaN(ANIMATION_SPEED_MS) || ANIMATION_SPEED_MS <= 0) {
-      //     ANIMATION_SPEED_MS = 100;
-      //   }
-      
-      //   const animations = getMergeSortAnimations(this.state.array);
-      //   const arrayBars = document.getElementsByClassName('array-bar');
-      
-      //   for (let i = 0; i < animations.length; i++) {
-      //     const isColorChange = i % 3 !== 2;
-      
-      //     if (isColorChange) {
-      //       const [barOneIdx, barTwoIdx] = animations[i];
-      //       const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-      //       setTimeout(() => {
-      //         // Check if arrayBars[barOneIdx] and arrayBars[barTwoIdx] are defined before accessing style
-      //         if (arrayBars[barOneIdx]) arrayBars[barOneIdx].style.backgroundColor = color;
-      //         if (arrayBars[barTwoIdx]) arrayBars[barTwoIdx].style.backgroundColor = color;
-      //       }, i * ANIMATION_SPEED_MS);
-      //     } else {
-      //       setTimeout(() => {
-      //         const [barOneIdx, newHeight, barTwoIdx] = animations[i];
-      //         // Check if arrayBars[barOneIdx] and arrayBars[barTwoIdx] are defined before accessing style
-      //         if (arrayBars[barOneIdx]) arrayBars[barOneIdx].style.height = `${newHeight / 3}px`;
-      //         if (arrayBars[barTwoIdx]) arrayBars[barTwoIdx].style.height = `${newHeight / 3}px`;
-      
-      //         // Update value (only if ArraySize is less than or equal to 40)
-      //         if (ArraySize <= 40) {
-      //           if (arrayBars[barOneIdx]) arrayBars[barOneIdx].innerText = newHeight;
-      //           if (arrayBars[barTwoIdx]) arrayBars[barTwoIdx].innerText = newHeight;
-      //         }
-      //       }, i * ANIMATION_SPEED_MS);
-      //     }
-      //   }
-      // }
     // bubblesort = (a)=> {
     //     const n=a.length;
     //     for(let i=0;i<n-1;i++){
@@ -158,7 +122,7 @@ export default class SortingVisualizer extends React.Component{
     render(){
         const {array} = this.state;
         const padding_value = ArraySize<=40? 5:2;
-        const margin_value = ArraySize<=40? 5:1;
+        const margin_value = ArraySize<=40? 5:4;
       
         return(
           
@@ -175,7 +139,7 @@ export default class SortingVisualizer extends React.Component{
           {
               array.map((value, idx) => (
               <div key={idx} className='array-bar-container' style={{marginRight : `${margin_value}px`}}>
-                    <div className='array-bar' style={{ height: `${value / 3}px`, padding: `${padding_value}px` }}>
+                    <div className='array-bar' style={{ height: `${Math.floor(value / 3)}px`, padding: `${padding_value}px` }}>
                     {ArraySize <= 40 && <div className='bar-value'>{value}</div>}
                     </div>
                     

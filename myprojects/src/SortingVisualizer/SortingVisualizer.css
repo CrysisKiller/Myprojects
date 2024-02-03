@@ -31,4 +31,10 @@
     margin-top: 4px; /* Adjust the margin as needed */
     color: rgb(0, 0, 0); /* Optional: Set the text color */
   }
-  
+
+
+.disabled-link {
+  pointer-events: none;
+  color: #6c757d !important;
+}
+
