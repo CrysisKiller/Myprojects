@@ -15,51 +15,83 @@ export default class Header1 extends React.Component {
     this.state = {
       disabledState:false,
       sortValue:"",
+      setFont:false,
     };
   }
 
 
   handleSizeChange=(event)=>{
-    this.props.onsetSize(event.target.value);
+    if(event.target.value<=40){
+      this.props.onsetSize(event.target.value);
   }
+  else{
+    window.alert("Maximum no of elements is 40");
+    this.props.onsetSize("20");
+  }
+}
 
   handleSpeedChange=(event)=>{
     this.props.onsetSpeed(event.target.value);
   }
 
+
   setSortvalue = (sortValue) => {
+    // Reset font size for all sort values
+    const sortValues = ["mergesort", "quicksort", "selection sort", "insertion sort", "bubblesort"];
+    sortValues.forEach(value => {
+      const element = document.getElementById(value);
+      if (element) {
+        element.style.fontSize = "initial"; // Reset font size
+      }
+    });
+  
+    // Set font size for the current sort value
     this.setState({ sortValue });
+    const currentElement = document.getElementById(sortValue);
+    if (currentElement) {
+      currentElement.style.fontSize = "x-large";
+    };
   };
   
-  //  callRequestedsort=()=>{
-  //   this.setState({disabledState:true},()=>{    
-  //     switch(this.state.sortValue){
-  //     case "mergesort" : this.props.onMergeSort();
-  //                        break;
-  //     default : console.log("invalid value");
-  //               break;                             
-  //   }
-  // });
-  // }
 
   callRequestedsort = () => {
+    if(this.state.sortValue==""){
+      this.setState({disabledState : false});
+      window.alert("please select a sort algorithm");
+    }
+    else{
     this.setState({ disabledState: true }, () => {    
       switch (this.state.sortValue) {
         case "mergesort":
           this.props.onMergeSort(() => {
-            // Enable elements after sorting is complete
-            this.setState({ disabledState: false });
+            this.setState({ disabledState: false });    
           });
           break;
+        case "bubblesort": 
+          this.props.onbubbleSort(() => {
+            this.setState({ disabledState: false });    
+          }); 
+          break;
+        case "selection sort":
+          this.props.onselectionSort(() => { 
+            this.setState({ disabledState: false });    
+          });
+        case "insertion sort" :
+          this.props.oninsertionSort(()=>{
+            this.setState({ disabledState: false })
+          })
+        case "quicksort"  :
+          this.props.onquicksort(()=>{
+            this.setState({disabledState:false})
+            })
+        
         default:
           console.log("invalid value");
           break;
       }
     });
+  }
   };
-  
-
-  
 
 render () {
     return(
@@ -73,19 +105,24 @@ render () {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link    onClick={()=>{this.props.onGenerateNewArray()}} disabled={this.state.disabledState}>Generate New Array</Nav.Link>
-            <Nav.Link    onClick={()=>{this.setSortvalue("mergesort")}} disabled={this.state.disabledState}>Mergesort</Nav.Link>
-            <Nav.Link    onClick={()=>{this.setSortvalue("quicksort")}} disabled={this.state.disabledState}>Quicksort</Nav.Link>
-            <Nav.Link    onClick={()=>{this.setSortvalue("selection sort")}} disabled={this.state.disabledState}>Selection sort</Nav.Link>
-            <Nav.Link    onClick={()=>{this.setSortvalue("insertion sort")}} disabled={this.state.disabledState}>Insertion sort</Nav.Link>
-            <Nav.Link    onClick={()=>{this.setSortvalue("bubblesort")}} disabled={this.state.disabledState}>Bubblesort</Nav.Link>
+            <Nav.Link   onClick={()=>{this.props.onGenerateNewArray()}} disabled={this.state.disabledState}>Generate New Array</Nav.Link>
 
-            <NavDropdown title="Link" id="navbarScrollingDropdown" >
+            <Nav.Link   id="mergesort" onClick={()=>{this.setSortvalue("mergesort")}} disabled={this.state.disabledState}>Mergesort</Nav.Link>
+
+            <Nav.Link   id="quicksort" onClick={()=>{this.setSortvalue("quicksort")}} disabled={this.state.disabledState}>Quicksort</Nav.Link>
+
+            <Nav.Link  id="selection sort"  onClick={()=>{this.setSortvalue("selection sort")}} disabled={this.state.disabledState}>Selection sort</Nav.Link>
+
+            <Nav.Link  id='insertion sort'  onClick={()=>{this.setSortvalue("insertion sort")}} disabled={this.state.disabledState}>Insertion sort</Nav.Link>
+
+            <Nav.Link  id="bubblesort"  onClick={()=>{this.setSortvalue("bubblesort")}} disabled={this.state.disabledState}>Bubblesort</Nav.Link>
+
+            {/* <NavDropdown title="Link" id="navbarScrollingDropdown" >
               <NavDropdown.Item href="/sorting">Sorting</NavDropdown.Item>
               <NavDropdown.Item href="/graphs" >
                Graphs
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
 
           </Nav>
           <Form>

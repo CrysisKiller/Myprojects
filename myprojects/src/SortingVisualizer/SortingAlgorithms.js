@@ -53,37 +53,81 @@ function doMerge(mainArray,startIdx,middleIdx,endIdx,auxiliaryArray,animations,)
   }
 }
 
+export function bubbleSort  (array) {
+  const n = array.length;
+
+  const animations = [];
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      animations.push({ type: 'compare', indices: [j, j + 1] });
+
+      if (array[j] > array[j + 1]) {
+        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+        animations.push({ type: 'swap', indices: [j, j + 1] });
+      }
+      if (array[j] <= array[j + 1]) {
+        animations.push({ type: 'swap01', indices: [j, j + 1] });
+      }
+      if(j==n-i-2){
+      animations.push({ type: 'swap02', indices: [j+1] });}
+    }
+    if(i==n-1) 
+    animations.push({type:"swap03",indices:[0]});
+  }
+  return(animations);
+};
 
 
-// function doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations) {
-//   let k = startIdx;
-//   let i = startIdx;
-//   let j = middleIdx + 1;
+export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
+  let n = array.length;
+  const animations = [];
+  for (let i = 0; i < n - 1; i++) {
+    let minIndex = i;
+    for (let j = i + 1; j < n; j++) {
+      if (array[j] < array[minIndex]) {
+        animations.push({ type: 'color', index: minIndex, color: 'aqua' });
+        minIndex = j;
+        animations.push({ type: 'color', index: minIndex, color: 'red' });
+      }else{
+        animations.push({ type: 'color', index: j, color: 'aqua' });
+      }
 
-//   while (i <= middleIdx && j <= endIdx) {
-//     animations.push([i, j]);
+    }
+    // animations.push({ type: 'swap', indices: [i, minIndex] })
+    let temp = array[i];
+    array[i] = array[minIndex];
+    array[minIndex] = temp;
+    animations.push({ type: 'color', index: minIndex, color: 'aqua' });
+    animations.push({ type: 'color', index: i, color: 'orange' });
+  } animations.push({ type: 'color', index: n-1, color: 'orange' });
 
-//     if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-//       animations.push([k, auxiliaryArray[i]]);
-//       mainArray[k++] = auxiliaryArray[i++];
-//     } else {
-//       animations.push([k, auxiliaryArray[j]]);
-//       mainArray[k++] = auxiliaryArray[j++];
-//     }
-//   }
 
-//   while (i <= middleIdx) {
-//     animations.push([i, i]);
-//     animations.push([k, auxiliaryArray[i]]);
-//     mainArray[k++] = auxiliaryArray[i++];
-//   }
+  for (let i = 0; i < animations.length; i++) {
+    const { type, index, color, indices } = animations[i];
 
-//   while (j <= endIdx) {
-//     animations.push([j, j]);
-//     animations.push([k, auxiliaryArray[j]]);
-//     mainArray[k++] = auxiliaryArray[j++];
-//   }
-//   animations.push([startIdx, endIdx]);
-// }
+    setTimeout(() => {
+      if (type === 'color') {
+        arrayBars[index].style.backgroundColor = color;
+      } else if (type === 'swap') {
+        const tempHeight = arrayBars[indices[0]].style.height;
+        arrayBars[indices[0]].style.height = arrayBars[indices[1]].style.height;
+        arrayBars[indices[1]].style.height = tempHeight;
+
+        
+          const tempInnerText = arrayBars[indices[0]].innerText;
+          arrayBars[indices[0]].innerText = arrayBars[indices[1]].innerText;
+          arrayBars[indices[1]].innerText = tempInnerText;
+        
+      }
+    }, i * ANIMATION_SPEED_MS);
+  }
+
+  setTimeout(() => {
+    
+    callback();
+  }, animations.length * ANIMATION_SPEED_MS);
+};
+
 
 
