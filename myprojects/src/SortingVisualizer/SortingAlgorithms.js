@@ -1,3 +1,5 @@
+/**MergeSort */
+
 export function getMergeSortAnimations(array) {
   const animations = [];
   if (array.length <= 1) return array;
@@ -15,8 +17,8 @@ function mergeSortHelper(mainArray,startIdx,endIdx,auxiliaryArray,animations,) {
 }
 
 function doMerge(mainArray,startIdx,middleIdx,endIdx,auxiliaryArray,animations,) {
-  let k = startIdx;              //original shit working one
-  let i = startIdx;
+  let k = startIdx;      
+  let i = startIdx;      
   let j = middleIdx + 1;
   while (i <= middleIdx && j <= endIdx) {
 
@@ -52,6 +54,7 @@ function doMerge(mainArray,startIdx,middleIdx,endIdx,auxiliaryArray,animations,)
     mainArray[k++] = auxiliaryArray[j++];
   }
 }
+/*BubbleSort*/
 
 export function bubbleSort  (array) {
   const n = array.length;
@@ -77,7 +80,8 @@ export function bubbleSort  (array) {
   }
   return(animations);
 };
-
+ 
+/*Selection Sort*/
 
 export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
   let n = array.length;
@@ -94,15 +98,12 @@ export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
       }
 
     }
-    // animations.push({ type: 'swap', indices: [i, minIndex] })
     let temp = array[i];
     array[i] = array[minIndex];
     array[minIndex] = temp;
     animations.push({ type: 'color', index: minIndex, color: 'aqua' });
     animations.push({ type: 'color', index: i, color: 'orange' });
   } animations.push({ type: 'color', index: n-1, color: 'orange' });
-
-
   for (let i = 0; i < animations.length; i++) {
     const { type, index, color, indices } = animations[i];
 
@@ -129,7 +130,7 @@ export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
   }, animations.length * ANIMATION_SPEED_MS);
 };
 
-
+/*Insertion Sort*/
 
 export function insertionSort (array) {
   const animations = [];
@@ -137,25 +138,15 @@ export function insertionSort (array) {
   for (let i = 1; i < array.length; i++) {
     let key = array[i];
     let j = i - 1;
-
-    // Animation: set arrayBars[i] to red at the beginning of the outer loop
-    //animations.push({ type: 'color', index: i, color: 'red' });
-
     while (j >= 0 && array[j] > key) {
-      // Animation: set arrayBars[j] to red during comparison
       animations.push({ type: 'color', index: j, color: 'orange' });
-      // Animation: reset colors to blue before comparison
       animations.push({ type: 'color', index: j + 1, color: 'red' });
       animations.push({ type: 'color', index: j + 1, color: 'orange' });
-
-
-      // Swap values
       animations.push({ type: 'swap', indices: [j, j + 1] });
       array[j + 1] = array[j];
       j--;
 
       if (array[j]<key) {
-        // Animation: set arrayBars[j] to blue after swapping
         animations.push({ type: 'color', index: j, color: 'orange' });
       }
     }
@@ -168,3 +159,61 @@ export function insertionSort (array) {
   }
   return animations;
 };
+
+
+
+/** QuickSort*/
+
+
+export function quickSort(array,callback){
+  const animations = [];
+  quickSortHelper(array, 0, array.length - 1, animations);
+  return animations;
+};
+
+function quickSortHelper(array, low, high, animations){
+  if (low < high) {
+    const partitionIndex = partition(array, low, high, animations);
+    quickSortHelper(array, low, partitionIndex - 1, animations);
+    quickSortHelper(array, partitionIndex + 1, high, animations);
+  }
+};
+
+function partition (array, low, high, animations) {
+  const pivot = array[high];
+  animations.push({ type: 'color', index: high, color: 'green' });
+
+  let i = low - 1;
+
+  for (let j = low; j < high; j++) {
+    animations.push({ type: 'color', index: j, color: 'red' });
+    //animations.push({ type: 'color', index: high, color: 'red' });
+    animations.push({ type: 'color', index: j, color: 'orange' });
+
+    if (array[j] <= pivot) {
+      i++;
+      animations.push({ type: 'swap', indices: [i, j] });
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+      if (i !== j) {
+        //animations.push({ type: 'color', index: i+1, color: 'orange' });
+        animations.push({ type: 'color', index: i, color: 'orange' });
+        animations.push({ type: 'color', index: j, color: 'orange' });
+      }
+    }
+  }
+
+  animations.push({ type: 'swap', indices: [i + 1, high] });
+  const temp = array[i + 1];
+  array[i + 1] = array[high];
+  array[high] = temp;
+  //animations.push({ type: 'color', index: i, color: 'orange' });
+
+  animations.push({ type: 'color', index: i + 1, color: 'orange' });
+  animations.push({ type: 'color', index: high, color: 'orange' });
+
+  return i + 1;
+};
+
+

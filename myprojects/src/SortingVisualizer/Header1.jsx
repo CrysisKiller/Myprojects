@@ -37,7 +37,7 @@ export default class Header1 extends React.Component {
 
   setSortvalue = (sortValue) => {
     // Reset font size for all sort values
-    const sortValues = ["mergesort", "quicksort", "selection sort", "insertion sort", "bubblesort"];
+    const sortValues = ["mergesort", "quicksort", "selection sort", "insertion sort", "bubblesort","heapsort"];
     sortValues.forEach(value => {
       const element = document.getElementById(value);
       if (element) {
@@ -80,11 +80,11 @@ export default class Header1 extends React.Component {
           this.props.oninsertionSort(()=>{
             this.setState({ disabledState: false })
           })
-        // case "quicksort"  :
-        //   this.props.onquickSort(()=>{
-        //     this.setState({disabledState:false})
-        //     })
-        
+        case "quicksort"  :
+          this.props.onquickSort(()=>{
+            this.setState({disabledState:false})
+            })
+
         default:
           console.log("invalid value");
           break;
@@ -116,6 +116,8 @@ render () {
             <Nav.Link  id='insertion sort'  onClick={()=>{this.setSortvalue("insertion sort")}} disabled={this.state.disabledState}>Insertion sort</Nav.Link>
 
             <Nav.Link  id="bubblesort"  onClick={()=>{this.setSortvalue("bubblesort")}} disabled={this.state.disabledState}>Bubblesort</Nav.Link>
+
+            <Nav.Link  id="heapsort"  onClick={()=>{this.setSortvalue("heapsort")}} disabled={this.state.disabledState}>Heap sort</Nav.Link>
 
             {/* <NavDropdown title="Link" id="navbarScrollingDropdown" >
               <NavDropdown.Item href="/sorting">Sorting</NavDropdown.Item>

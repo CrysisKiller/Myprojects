@@ -1,7 +1,7 @@
 import React from 'react';
 import Header1 from './Header1';
 import './SortingVisualizer.css';
-import {getMergeSortAnimations,bubbleSort,selectionSort,insertionSort} from './SortingAlgorithms.js';
+import {getMergeSortAnimations,bubbleSort,selectionSort,insertionSort,quickSort} from './SortingAlgorithms.js';
 
 
 let ANIMATION_SPEED_MS = 100;
@@ -69,7 +69,10 @@ export default class SortingVisualizer extends React.Component{
       selectionSort(callback,array,arrayBars,ANIMATION_SPEED_MS);
     }
     onquickSort=(callback)=>{
-        this.onquickSort(callback);
+        this.animateQuickSort(callback);
+    }
+    onheapSort=(callback)=>{
+      this.animateHeapSort(callback);
     }
 
     setAnimationSpeed=(newSpeed)=>{
@@ -81,7 +84,7 @@ export default class SortingVisualizer extends React.Component{
         this.resetArray();
     }
 
-       animateMergeSort(callback) {    //original one working one 
+    animateMergeSort(callback) {    //original one working one 
         if (!ANIMATION_SPEED_MS || isNaN(ANIMATION_SPEED_MS) || ANIMATION_SPEED_MS <= 0) {
           ANIMATION_SPEED_MS = 100;
         }
@@ -192,9 +195,33 @@ export default class SortingVisualizer extends React.Component{
       }, animations.length*ANIMATION_SPEED_MS);
     };
     
-    onquickSort=()=>{
-
-    }
+    animateQuickSort = (callback) => {
+      const arrayBars = document.getElementsByClassName('array-bar');   
+      let animations =  quickSort(this.state.array);
+      for (let i = 0; i < animations.length; i++) {
+        const { type, index, color, indices } = animations[i];
+    
+        setTimeout(() => {
+          if (type === 'color') {
+            arrayBars[index].style.backgroundColor = color;
+          } else if (type === 'swap') {
+            const tempHeight = arrayBars[indices[0]].style.height;
+            arrayBars[indices[0]].style.height = arrayBars[indices[1]].style.height;
+            arrayBars[indices[1]].style.height = tempHeight;
+    
+            // if (ArraySize <= 40) {
+              const tempInnerText = arrayBars[indices[0]].innerText;
+              arrayBars[indices[0]].innerText = arrayBars[indices[1]].innerText;
+              arrayBars[indices[1]].innerText = tempInnerText;
+            // }
+          }
+        }, i*ANIMATION_SPEED_MS);
+      }
+    
+      setTimeout(() => {
+        callback();
+      },animations.length*ANIMATION_SPEED_MS);
+    };
 
     render(){
         const {array} = this.state;
@@ -213,7 +240,7 @@ export default class SortingVisualizer extends React.Component{
              onselectionSort={this.onselectionSort}
              onquickSort={this.onquickSort}
              oninsertionSort={this.oninsertionSort}
-
+             onheapSort={this.onheapSort}
           />
 
           <div className='bar-container'>
