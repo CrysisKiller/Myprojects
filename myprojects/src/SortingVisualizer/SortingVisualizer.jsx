@@ -63,15 +63,11 @@ export default class SortingVisualizer extends React.Component{
     oninsertionSort=(callback)=>{
         this.animateInsertionSort(callback);
     }
+    
     onselectionSort=(callback)=>{
-
      this.selectionSort(callback);
     }
    
-    onheapSort=(callback)=>{
-      this.animateHeapSort(callback);
-    }
-
     setAnimationSpeed=(newSpeed)=>{
       ANIMATION_SPEED_MS =parseInt(newSpeed,10);
     }
@@ -268,7 +264,6 @@ export default class SortingVisualizer extends React.Component{
             onbubbleSort={this.onbubbleSort}
              onselectionSort={this.onselectionSort}
              oninsertionSort={this.oninsertionSort}
-             onheapSort={this.onheapSort}
           />
 
           <div className='bar-container'>

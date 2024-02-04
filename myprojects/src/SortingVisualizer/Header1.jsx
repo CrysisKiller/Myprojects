@@ -114,15 +114,6 @@ render () {
 
             <Nav.Link  id="bubblesort"  onClick={()=>{this.setSortvalue("bubblesort")}} disabled={this.state.disabledState}>Bubblesort</Nav.Link>
 
-            <Nav.Link  id="heapsort"  onClick={()=>{this.setSortvalue("heapsort")}} disabled={this.state.disabledState}>Heap sort</Nav.Link>
-
-            {/* <NavDropdown title="Link" id="navbarScrollingDropdown" >
-              <NavDropdown.Item href=''>Sorting</NavDropdown.Item>
-              <NavDropdown.Item href='' >
-               Graphs
-              </NavDropdown.Item>
-            </NavDropdown> */}
-
           </Nav>
           <Form>
            <Row>
