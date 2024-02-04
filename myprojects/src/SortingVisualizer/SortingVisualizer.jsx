@@ -55,7 +55,10 @@ export default class SortingVisualizer extends React.Component{
     onMergeSort = (callback) => {
       this.animateMergeSort(callback);
     };
-   
+    onsetArray = (array) => {
+      this.setState({ array });
+    }
+    
     onbubbleSort=(callback)=>{
        this.animateBubbleSort(callback);
     }
@@ -63,7 +66,7 @@ export default class SortingVisualizer extends React.Component{
     oninsertionSort=(callback)=>{
         this.animateInsertionSort(callback);
     }
-    
+
     onselectionSort=(callback)=>{
      this.selectionSort(callback);
     }
@@ -264,6 +267,7 @@ export default class SortingVisualizer extends React.Component{
             onbubbleSort={this.onbubbleSort}
              onselectionSort={this.onselectionSort}
              oninsertionSort={this.oninsertionSort}
+             onsetArray={this.onsetArray}
           />
 
           <div className='bar-container'>

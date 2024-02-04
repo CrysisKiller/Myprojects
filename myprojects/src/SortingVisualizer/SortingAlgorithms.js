@@ -160,9 +160,3 @@ export function insertionSort (array) {
 
 
 
-/** QuickSort*/
-
-
-
-
-

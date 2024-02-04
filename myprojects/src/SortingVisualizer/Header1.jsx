@@ -19,7 +19,20 @@ export default class Header1 extends React.Component {
     };
   }
 
-
+  handleArrayChange = (event) => {
+    const inputValue = event.target.value;
+    let textArray = [];
+  
+    if (inputValue) {
+      const valuesToAdd = inputValue.split(',');
+      const trimmedValues = valuesToAdd.map(value => value.trim());
+      const validValues = trimmedValues.filter(value => value !== '');
+      textArray = validValues;
+    }
+  
+    this.props.onsetArray(textArray);
+  }
+  
   handleSizeChange=(event)=>{
     if(event.target.value<=40){
       this.props.onsetSize(event.target.value);
@@ -37,7 +50,7 @@ export default class Header1 extends React.Component {
 
   setSortvalue = (sortValue) => {
     // Reset font size for all sort values
-    const sortValues = ["mergesort", "quicksort", "selection sort", "insertion sort", "bubblesort","heapsort"];
+    const sortValues = ["mergesort", "selection sort", "insertion sort", "bubblesort"];
     sortValues.forEach(value => {
       const element = document.getElementById(value);
       if (element) {
@@ -106,8 +119,6 @@ render () {
 
             <Nav.Link   id="mergesort" onClick={()=>{this.setSortvalue("mergesort")}} disabled={this.state.disabledState}>Mergesort</Nav.Link>
 
-            <Nav.Link   id="quicksort" onClick={()=>{this.setSortvalue("quicksort")}} disabled={this.state.disabledState}>Quicksort</Nav.Link>
-
             <Nav.Link  id="selection sort"  onClick={()=>{this.setSortvalue("selection sort")}} disabled={this.state.disabledState}>Selection sort</Nav.Link>
 
             <Nav.Link  id='insertion sort'  onClick={()=>{this.setSortvalue("insertion sort")}} disabled={this.state.disabledState}>Insertion sort</Nav.Link>
@@ -126,6 +137,11 @@ render () {
             <Col>
             <Form.Group  controlId="formGroupPassword">
               <Form.Control type="number" placeholder="Animation Speed" style={{width :"200px"}} onChange={this.handleSpeedChange} disabled={this.state.disabledState}/>
+            </Form.Group>
+            </Col>
+            <Col>
+            <Form.Group  controlId="formGroupPassword">
+              <Form.Control type="text" id="textInput" placeholder="Enter Array" style={{width :"200px"}} onChange={this.handleArrayChange} disabled={this.state.disabledState}/>
             </Form.Group>
             </Col>
             <Col>
