@@ -1,5 +1,3 @@
-/**MergeSort */
-
 export function getMergeSortAnimations(array) {
   const animations = [];
   if (array.length <= 1) return array;
@@ -75,7 +73,7 @@ export function bubbleSort  (array) {
       if(j==n-i-2){
       animations.push({ type: 'swap02', indices: [j+1] });}
     }
-    if(i==n-1) 
+    if(i==n-1)
     animations.push({type:"swap03",indices:[0]});
   }
   return(animations);
@@ -85,7 +83,7 @@ export function bubbleSort  (array) {
 
 export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
   let n = array.length;
-  const animations = [];
+  let animations = [];
   for (let i = 0; i < n - 1; i++) {
     let minIndex = i;
     for (let j = i + 1; j < n; j++) {
@@ -115,17 +113,17 @@ export function selectionSort (callback,array,arrayBars,ANIMATION_SPEED_MS) {
         arrayBars[indices[0]].style.height = arrayBars[indices[1]].style.height;
         arrayBars[indices[1]].style.height = tempHeight;
 
-        
+       
           const tempInnerText = arrayBars[indices[0]].innerText;
           arrayBars[indices[0]].innerText = arrayBars[indices[1]].innerText;
           arrayBars[indices[1]].innerText = tempInnerText;
-        
+       
       }
     }, i * ANIMATION_SPEED_MS);
   }
 
   setTimeout(() => {
-    
+   
     callback();
   }, animations.length * ANIMATION_SPEED_MS);
 };
@@ -165,55 +163,6 @@ export function insertionSort (array) {
 /** QuickSort*/
 
 
-export function quickSort(array,callback){
-  const animations = [];
-  quickSortHelper(array, 0, array.length - 1, animations);
-  return animations;
-};
 
-function quickSortHelper(array, low, high, animations){
-  if (low < high) {
-    const partitionIndex = partition(array, low, high, animations);
-    quickSortHelper(array, low, partitionIndex - 1, animations);
-    quickSortHelper(array, partitionIndex + 1, high, animations);
-  }
-};
-
-function partition (array, low, high, animations) {
-  const pivot = array[high];
-  animations.push({ type: 'color', index: high, color: 'green' });
-
-  let i = low - 1;
-
-  for (let j = low; j < high; j++) {
-    animations.push({ type: 'color', index: j, color: 'red' });
-    //animations.push({ type: 'color', index: high, color: 'red' });
-    animations.push({ type: 'color', index: j, color: 'orange' });
-
-    if (array[j] <= pivot) {
-      i++;
-      animations.push({ type: 'swap', indices: [i, j] });
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-      if (i !== j) {
-        //animations.push({ type: 'color', index: i+1, color: 'orange' });
-        animations.push({ type: 'color', index: i, color: 'orange' });
-        animations.push({ type: 'color', index: j, color: 'orange' });
-      }
-    }
-  }
-
-  animations.push({ type: 'swap', indices: [i + 1, high] });
-  const temp = array[i + 1];
-  array[i + 1] = array[high];
-  array[high] = temp;
-  //animations.push({ type: 'color', index: i, color: 'orange' });
-
-  animations.push({ type: 'color', index: i + 1, color: 'orange' });
-  animations.push({ type: 'color', index: high, color: 'orange' });
-
-  return i + 1;
-};
 
 

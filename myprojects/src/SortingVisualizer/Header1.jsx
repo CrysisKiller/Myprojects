@@ -44,7 +44,7 @@ export default class Header1 extends React.Component {
         element.style.fontSize = "initial"; // Reset font size
       }
     });
-  
+ 
     // Set font size for the current sort value
     this.setState({ sortValue });
     const currentElement = document.getElementById(sortValue);
@@ -52,7 +52,7 @@ export default class Header1 extends React.Component {
       currentElement.style.fontSize = "x-large";
     };
   };
-  
+ 
 
   callRequestedsort = () => {
     if(this.state.sortValue==""){
@@ -67,23 +67,20 @@ export default class Header1 extends React.Component {
             this.setState({ disabledState: false });    
           });
           break;
-        case "bubblesort": 
+        case "bubblesort":
           this.props.onbubbleSort(() => {
             this.setState({ disabledState: false });    
-          }); 
+          });
           break;
         case "selection sort":
-          this.props.onselectionSort(() => { 
+          this.props.onselectionSort(() => {
             this.setState({ disabledState: false });    
           });
         case "insertion sort" :
           this.props.oninsertionSort(()=>{
             this.setState({ disabledState: false })
           })
-        case "quicksort"  :
-          this.props.onquickSort(()=>{
-            this.setState({disabledState:false})
-            })
+       
 
         default:
           console.log("invalid value");
@@ -120,8 +117,8 @@ render () {
             <Nav.Link  id="heapsort"  onClick={()=>{this.setSortvalue("heapsort")}} disabled={this.state.disabledState}>Heap sort</Nav.Link>
 
             {/* <NavDropdown title="Link" id="navbarScrollingDropdown" >
-              <NavDropdown.Item href="/sorting">Sorting</NavDropdown.Item>
-              <NavDropdown.Item href="/graphs" >
+              <NavDropdown.Item href=''>Sorting</NavDropdown.Item>
+              <NavDropdown.Item href='' >
                Graphs
               </NavDropdown.Item>
             </NavDropdown> */}
@@ -143,8 +140,8 @@ render () {
             <Col>
              <Button variant="outline-success" onClick={()=>{this.callRequestedsort()}} disabled={this.state.disabledState}>Sort</Button>
             </Col>
-            </Row> 
-    
+            </Row>
+   
           </Form>
         </Navbar.Collapse>
       </Container>
