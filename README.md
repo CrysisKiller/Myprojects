@@ -25,7 +25,7 @@ Navigate to the project directory : cd myprojects
 Start the development server : npm start
 Open your browser and go to http://localhost:3000 to view the Sorting Visualizer.
 
-Configuration
+Configuration:
 Adjust the project settings by modifying the following variables in the code:
 
 Animation Speed: Change the animation speed by adjusting ANIMATION_SPEED_MS in SortingVisualizer.js.
